@@ -1,0 +1,217 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #ffffff;
+  color: #333333;
+}
+
+.app {
+  min-height: 100vh;
+  background-color: #ffffff;
+}
+
+.container {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Left Section - PDF Upload */
+.upload-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid #e0e0e0;
+}
+
+.section-header {
+  background-color: #333333;
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
+
+.section-header h2 {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.upload-area {
+  flex: 1;
+  padding: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dropzone {
+  width: 100%;
+  height: 300px;
+  border: 2px dashed #cccccc;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background-color: #fafafa;
+}
+
+.dropzone:hover {
+  border-color: #666666;
+  background-color: #f5f5f5;
+}
+
+.dropzone.active {
+  border-color: #007bff;
+  background-color: #e3f2fd;
+}
+
+.upload-content {
+  text-align: center;
+  color: #666666;
+}
+
+.upload-content p {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.selected-file {
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #e8f5e8;
+  border-radius: 4px;
+  color: #2e7d32;
+}
+
+/* Right Section - Template Selection */
+.template-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+}
+
+.template-section .section-header {
+  background-color: transparent;
+  color: #333333;
+  text-align: left;
+  padding: 20px 20px 10px 20px;
+}
+
+.template-section .section-header h2 {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.template-dropdown {
+  padding: 0 20px 20px 20px;
+}
+
+.template-dropdown select {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  background-color: white;
+  font-size: 14px;
+  color: #333333;
+  cursor: pointer;
+}
+
+.template-dropdown select:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.template-details {
+  flex: 1;
+  padding: 0 20px;
+  overflow-y: auto;
+}
+
+.template-content {
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 4px;
+  line-height: 1.6;
+}
+
+.template-content h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 20px 0 10px 0;
+  color: #333333;
+}
+
+.template-content h3:first-child {
+  margin-top: 0;
+}
+
+.template-content p {
+  margin-bottom: 15px;
+  color: #555555;
+}
+
+.template-content ul {
+  margin: 15px 0;
+  padding-left: 20px;
+}
+
+.template-content li {
+  margin-bottom: 8px;
+  color: #555555;
+  font-size: 14px;
+}
+
+.csv-button {
+  margin: 20px;
+  padding: 12px 24px;
+  background-color: #333333;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  align-self: flex-end;
+}
+
+.csv-button:hover {
+  background-color: #555555;
+}
+
+.csv-button:active {
+  background-color: #222222;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
+  
+  .upload-section {
+    border-right: none;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  
+  .upload-area {
+    padding: 20px;
+  }
+  
+  .dropzone {
+    height: 200px;
+  }
+}
