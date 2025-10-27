@@ -1,0 +1,16 @@
+{
+  "selectPdfButton": "Select PDF to upload",
+  "uploadPrompt": "Please upload PDF",
+  "templateLabel": "Please select a template:",
+  "csvButton": "Confirm conversion to CSV",
+  "downloadCsvButton": "Confirm download to CSV",
+  "uploadError": "Please upload a PDF file first",
+  "conversionStart": "Starting CSV conversion...",
+  "language": "Language",
+  "languages": {
+    "en": "English",
+    "zh": "中文",
+    "ja": "日本語"
+  }
+}
+

@@ -1,0 +1,15 @@
+{
+  "selectPdfButton": "选择PDF文件上传",
+  "uploadPrompt": "请上传PDF文件",
+  "templateLabel": "请选择模板：",
+  "csvButton": "确认转换为CSV",
+  "downloadCsvButton": "确认下载为CSV",
+  "uploadError": "请先上传PDF文件",
+  "conversionStart": "开始CSV转换...",
+  "language": "语言",
+  "languages": {
+    "en": "English",
+    "zh": "中文",
+    "ja": "日本語"
+  }
+}
