@@ -110,6 +110,7 @@ function App() {
     }
 
     // Get API key from environment variable or prompt
+    // Only use REACT_APP_OPENAI_API_KEY, ignore system OPENAI_API_KEY
     let apiKey = process.env.REACT_APP_OPENAI_API_KEY;
     
     // Check for runtime environment variables (Docker)
@@ -117,11 +118,19 @@ function App() {
       apiKey = window._env_.REACT_APP_OPENAI_API_KEY;
     }
     
-    if (!apiKey || apiKey === 'your_openai_api_key_here') {
-      apiKey = prompt('Please enter your OpenAI API key:');
-      if (!apiKey) {
-        alert('OpenAI API key is required');
-        return;
+    if (!apiKey || apiKey === 'your_openai_api_key_here' || !apiKey.startsWith('sk-')) {
+      // Check sessionStorage first (remembers only for current tab session)
+      const sessionApiKey = sessionStorage.getItem('openai_api_key');
+      if (sessionApiKey && sessionApiKey.startsWith('sk-')) {
+        apiKey = sessionApiKey;
+      } else {
+        apiKey = prompt('Please enter your OpenAI API key:');
+        if (!apiKey) {
+          alert('OpenAI API key is required');
+          return;
+        }
+        // Save to sessionStorage for current tab session only
+        sessionStorage.setItem('openai_api_key', apiKey);
       }
     }
 
