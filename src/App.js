@@ -342,10 +342,24 @@ function App() {
           </button>
           <div className="upload-area">
             {selectedFile ? (
-              <PDFPreview 
-                file={selectedFile} 
-                onImagesGenerated={handleImagesGenerated}
-              />
+              selectedFile.type === 'application/pdf' ? (
+                <PDFPreview 
+                  file={selectedFile} 
+                  onImagesGenerated={handleImagesGenerated}
+                />
+              ) : (
+                <div className="image-preview">
+                  <h3>Image Preview</h3>
+                  <img 
+                    src={URL.createObjectURL(selectedFile)} 
+                    alt="Preview" 
+                    style={{ maxWidth: '100%', maxHeight: '400px' }}
+                  />
+                  <p>File: {selectedFile.name}</p>
+                  <p>Type: {selectedFile.type}</p>
+                  <p>Size: {(selectedFile.size / 1024).toFixed(1)} KB</p>
+                </div>
+              )
             ) : (
               <div 
                 {...getRootProps()} 

@@ -9,5 +9,7 @@ services:
       - "3000:80"
     environment:
       - NODE_ENV=production
+      # Uncomment and set your OpenAI API key here, or pass it via docker run -e
+      # - REACT_APP_OPENAI_API_KEY=your_api_key_here
     restart: unless-stopped
     container_name: invoice-ocr-frontend

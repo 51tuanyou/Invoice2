@@ -127,33 +127,28 @@ docker-compose -f docker-compose.prod.yml up -d
 5. Make sure you have credits in your OpenAI account
 
 #### For Docker Deployment:
-**Important**: The `.env` file is **NOT** included in the Docker image for security reasons.
+**Important**: The `.env` file is **NOT** included in the Docker image for security reasons. The application supports runtime environment variables and will prompt for API key if none is provided.
 
 **Option 1: Environment Variable (Recommended)**
 ```bash
 # Run with environment variable
-docker run -d -p 3000:80 -e REACT_APP_OPENAI_API_KEY=your_actual_api_key_here your-username/invoice-ocr-app:latest
+docker run -d -p 3000:80 --name invoice-ocr-app -e REACT_APP_OPENAI_API_KEY=your_actual_api_key_here your-username/invoice-ocr-app:latest
 
-# Or with docker-compose
-# Create a docker-compose.override.yml file:
-version: '3.8'
-services:
-  invoice-ocr-app:
-    environment:
-      - REACT_APP_OPENAI_API_KEY=your_actual_api_key_here
+# Or with docker-compose (uncomment the environment line in docker-compose.yml)
+docker-compose up -d
 ```
 
-**Option 2: Volume Mount (Alternative)**
+**Option 2: Using .env file**
 ```bash
 # Create .env file locally
 echo "REACT_APP_OPENAI_API_KEY=your_actual_api_key_here" > .env
 
 # Mount the .env file
-docker run -d -p 3000:80 -v $(pwd)/.env:/app/.env your-username/invoice-ocr-app:latest
+docker run -d -p 3000:80 --env-file .env your-username/invoice-ocr-app:latest
 ```
 
-**Option 3: Prompt for API Key**
-If no API key is provided, the application will prompt you to enter it when processing files.
+**Option 3: Prompt for API Key (Default)**
+If no API key is provided via environment variables, the application will prompt you to enter it when processing files. This is the default behavior when running without any API key configuration.
 
 ## Usage
 
