@@ -111,6 +111,12 @@ function App() {
 
     // Get API key from environment variable or prompt
     let apiKey = process.env.REACT_APP_OPENAI_API_KEY;
+    
+    // Check for runtime environment variables (Docker)
+    if (window._env_ && window._env_.REACT_APP_OPENAI_API_KEY) {
+      apiKey = window._env_.REACT_APP_OPENAI_API_KEY;
+    }
+    
     if (!apiKey || apiKey === 'your_openai_api_key_here') {
       apiKey = prompt('Please enter your OpenAI API key:');
       if (!apiKey) {

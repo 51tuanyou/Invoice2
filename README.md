@@ -235,3 +235,35 @@ The application provides detailed console logging for debugging:
 - **Error details**: Comprehensive error information including type, message, stack trace, and API response details
 
 Open browser console (F12) to view all debugging information during OCR processing.
+
+## Docker Environment Variables
+
+**Important**: The Docker image now supports runtime environment variables. This means you can change the API key without rebuilding the image.
+
+### How it works:
+1. The Docker container creates a runtime configuration file (`env-config.js`) at startup
+2. This file contains the environment variables passed to the container
+3. The React application reads these variables at runtime
+
+### Usage:
+```bash
+# Method 1: Environment variable (Recommended)
+docker run -d -p 3000:80 -e REACT_APP_OPENAI_API_KEY=your_actual_api_key_here your-image
+
+# Method 2: Using .env file
+echo "REACT_APP_OPENAI_API_KEY=your_actual_api_key_here" > .env
+docker run -d -p 3000:80 --env-file .env your-image
+
+# Method 3: Using docker-compose
+# Create docker-compose.override.yml:
+version: '3.8'
+services:
+  invoice-ocr-app:
+    environment:
+      - REACT_APP_OPENAI_API_KEY=your_actual_api_key_here
+```
+
+### Troubleshooting:
+- If you're still prompted for API key, check that the environment variable is correctly set
+- The container logs will show: "Runtime config created with REACT_APP_OPENAI_API_KEY: sk-xxxxx..."
+- You can verify the config by visiting `http://localhost:3000/env-config.js` in your browser
