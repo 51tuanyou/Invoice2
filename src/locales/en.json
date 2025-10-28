@@ -1,12 +1,15 @@
 {
-  "selectPdfButton": "Select PDF to upload",
-  "uploadPrompt": "Please upload PDF",
+  "selectPdfButton": "Select PDF、PNG、JPG to upload",
+  "uploadPrompt": "Please upload PDF, PNG, or JPG file",
   "templateLabel": "Please select a template:",
   "csvButton": "Confirm conversion to CSV",
   "downloadCsvButton": "Confirm download to CSV",
-  "uploadError": "Please upload a PDF file first",
+  "uploadError": "Please upload a PDF, PNG, or JPG file first",
   "conversionStart": "Starting CSV conversion...",
   "language": "Language",
+  "editTemplate": "Edit Template",
+  "exitEdit": "Exit Edit",
+  "processing": "Processing...",
   "languages": {
     "en": "English",
     "zh": "中文",

@@ -1,12 +1,15 @@
 {
-  "selectPdfButton": "アップロードするPDFを選択",
-  "uploadPrompt": "PDFファイルをアップロードしてください",
+  "selectPdfButton": "PDF、PNG、JPGファイルを選択してアップロード",
+  "uploadPrompt": "PDF、PNG、またはJPGファイルをアップロードしてください",
   "templateLabel": "テンプレートを選択してください：",
   "csvButton": "CSVへの変換を確認",
   "downloadCsvButton": "CSVとしてダウンロードを確認",
-  "uploadError": "まずPDFファイルをアップロードしてください",
+  "uploadError": "まずPDF、PNG、またはJPGファイルをアップロードしてください",
   "conversionStart": "CSV変換を開始しています...",
   "language": "言語",
+  "editTemplate": "テンプレートを編集",
+  "exitEdit": "編集を終了",
+  "processing": "処理中...",
   "languages": {
     "en": "English",
     "zh": "中文",

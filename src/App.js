@@ -14,6 +14,8 @@ function App() {
   const [extractedData, setExtractedData] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [editableData, setEditableData] = useState({});
+  const [isEditingTemplate, setIsEditingTemplate] = useState(false);
+  const [editedTemplateContent, setEditedTemplateContent] = useState('');
 
   // Fixed templates
   const templates = [
@@ -24,6 +26,10 @@ function App() {
     {
       id: 'template2', 
       name: 'Extract Lenovo invoice data'
+    },
+    {
+      id: 'template3',
+      name: 'Extract Picture data'
     }
   ];
 
@@ -31,6 +37,16 @@ function App() {
   useEffect(() => {
     loadTemplateContent(selectedTemplate);
   }, [selectedTemplate]);
+
+  // Auto-enter edit mode for Extract Picture data template
+  useEffect(() => {
+    if (selectedTemplate === 'template3' && templateContent) {
+      setEditedTemplateContent(templateContent);
+      setIsEditingTemplate(true);
+    } else if (selectedTemplate !== 'template3') {
+      setIsEditingTemplate(false);
+    }
+  }, [selectedTemplate, templateContent]);
 
   const loadTemplateContent = async (templateId) => {
     try {
@@ -57,7 +73,9 @@ function App() {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     accept: {
-      'application/pdf': ['.pdf']
+      'application/pdf': ['.pdf'],
+      'image/png': ['.png'],
+      'image/jpeg': ['.jpg', '.jpeg']
     },
     multiple: false
   });
@@ -84,7 +102,9 @@ function App() {
       return;
     }
     
-    if (pdfImages.length === 0) {
+    // Check if it's a PDF file and needs processing
+    const isPdfFile = selectedFile.type === 'application/pdf';
+    if (isPdfFile && pdfImages.length === 0) {
       alert('Please wait for PDF to be processed first');
       return;
     }
@@ -109,10 +129,30 @@ function App() {
     try {
       console.log('⚙️ Preparing OpenAI API request...');
 
-      console.log('🖼️ Converting PDF to image...');
-      // Convert first image to base64
-      const imageBase64 = pdfImages[0].split(',')[1];
-      console.log('📊 Image size:', Math.round(imageBase64.length / 1024), 'KB');
+      let imageBase64;
+      
+      if (isPdfFile) {
+        console.log('🖼️ Converting PDF to image...');
+        // Convert first image to base64
+        imageBase64 = pdfImages[0].split(',')[1];
+        console.log('📊 Image size:', Math.round(imageBase64.length / 1024), 'KB');
+      } else {
+        console.log('🖼️ Processing image file directly...');
+        // Convert image file to base64
+        const reader = new FileReader();
+        imageBase64 = await new Promise((resolve, reject) => {
+          reader.onload = () => {
+            const result = reader.result.split(',')[1];
+            resolve(result);
+          };
+          reader.onerror = reject;
+          reader.readAsDataURL(selectedFile);
+        });
+        console.log('📊 Image size:', Math.round(imageBase64.length / 1024), 'KB');
+      }
+      
+      // Use edited content if in editing mode, otherwise use original template content
+      const promptContent = isEditingTemplate ? editedTemplateContent : templateContent;
       
       // Prepare the request payload
       const requestPayload = {
@@ -123,7 +163,7 @@ function App() {
             content: [
               {
                 type: "text",
-                text: templateContent
+                text: promptContent
               },
               {
                 type: "image_url",
@@ -247,6 +287,15 @@ function App() {
     }));
   };
 
+  const handleEditTemplate = () => {
+    setEditedTemplateContent(templateContent);
+    setIsEditingTemplate(true);
+  };
+
+  const handleExitEdit = () => {
+    setIsEditingTemplate(false);
+  };
+
   const handleDownloadCSV = () => {
     if (!editableData || Object.keys(editableData).length === 0) {
       alert('No data to download');
@@ -326,12 +375,34 @@ function App() {
 
           <div className={`template-details ${extractedData ? 'compressed' : ''}`}>
             <div className="template-content">
-              <pre style={{ whiteSpace: 'pre-wrap', fontFamily: 'inherit', margin: 0 }}>
-                {templateContent}
-              </pre>
+              {isEditingTemplate ? (
+                <div className="template-editor">
+                  <textarea
+                    value={editedTemplateContent}
+                    onChange={(e) => setEditedTemplateContent(e.target.value)}
+                    className="template-textarea"
+                    rows={20}
+                    placeholder="Enter template content..."
+                  />
+                  <div className="template-edit-controls">
+                    <button className="exit-edit-button" onClick={handleExitEdit}>
+                      {t('exitEdit')}
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div className="template-display">
+                  <pre style={{ whiteSpace: 'pre-wrap', fontFamily: 'inherit', margin: 0 }}>
+                    {templateContent}
+                  </pre>
+                  <button className="edit-template-button" onClick={handleEditTemplate}>
+                    {t('editTemplate')}
+                  </button>
+                </div>
+              )}
             </div>
             <button className="csv-button" onClick={handleCSVConversion} disabled={isProcessing}>
-              {isProcessing ? 'Processing...' : t('csvButton')}
+              {isProcessing ? t('processing') : t('csvButton')}
             </button>
           </div>
 
